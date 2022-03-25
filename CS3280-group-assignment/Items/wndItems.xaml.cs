@@ -10,18 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Reflection;
 
-namespace CS3280_group_assignment
+namespace CS3280_group_assignment.Items
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for wndItems.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class wndItems : Window
     {
-        public MainWindow()
+        public wndItems()
         {
             InitializeComponent();
         }

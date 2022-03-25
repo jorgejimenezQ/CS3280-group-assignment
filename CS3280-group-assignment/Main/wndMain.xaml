@@ -1,0 +1,16 @@
+﻿<Window x:Class="CS3280_group_assignment.Main.wndMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CS3280_group_assignment.Main"
+        mc:Ignorable="d"
+        Title="wndMain" Height="450" Width="800">
+    <Grid>
+        <Menu HorizontalAlignment="Left" Height="38" VerticalAlignment="Top" Width="127">
+            <MenuItem x:Name="itemsMenu" Header="Items" Height="38" Width="64" Click="itemsMenu_Click" BorderBrush="#FFFE0909" Foreground="Black" Background="#FFFBECB6" FontSize="16"/>
+            <MenuItem x:Name="searchMenu" BorderBrush="#FFFE0909" Background="#FFFBECB6" FontSize="16" Header="Search" Click="searchMenu_Click"/>
+        </Menu>
+
+    </Grid>
+</Window>

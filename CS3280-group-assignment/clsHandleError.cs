@@ -28,5 +28,22 @@ namespace CS3280_group_assignment
                                              "HandleError Exception: " + ex.Message);
             }
         }
+        /*   Template for cathing error for bottom level method
+         
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+         */
+
+        /*  Template for catching error for high level method
+         
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+         */
     }
 }
