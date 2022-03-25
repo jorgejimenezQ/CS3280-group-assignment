@@ -8,5 +8,19 @@ namespace CS3280_group_assignment.Main
 {
     class clsMainSQL
     {
+        /// <summary>
+        /// This SQL gets all data on an invoice for given invoiceID
+        /// </summary>
+        /// <param name="sInvoiceID"></param>
+        /// <returns></returns>
+        public string SelectInvoiceData(string sInvoiceID)
+
+        {
+
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID;
+
+            return sSQL;
+
+        }
     }
 }

@@ -22,14 +22,27 @@ namespace CS3280_group_assignment.Main
     /// </summary>
     public partial class wndMain : Window
     {
+        /// <summary>
+        /// Variable for items window
+        /// </summary>
         wndItems items;
+
+        /// <summary>
+        /// Variable for search window
+        /// </summary>
         wndSearch search;
 
+        /// <summary>
+        /// Initializes form
+        /// </summary>
         public wndMain()
         {
             try
             {
                 InitializeComponent();
+
+                items = new wndItems();
+                search = new wndSearch();
             }
             catch (Exception ex)
             {
@@ -38,15 +51,17 @@ namespace CS3280_group_assignment.Main
             }
         }
 
+        /// <summary>
+        /// Brings up items window and hides main window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void itemsMenu_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 this.Hide();
-
-                items = new wndItems();
                 items.ShowDialog();
-
                 this.Show();
             }
             catch (Exception ex)
@@ -56,21 +71,41 @@ namespace CS3280_group_assignment.Main
             }
         }
 
+        /// <summary>
+        /// Brings up search window on top of main window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void searchMenu_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                this.Hide();
-
-                search = new wndSearch();
                 search.ShowDialog();
-
                 this.Show();
             }
             catch (Exception ex)
             {
                 clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Activates when x button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                this.Hide();
+                e.Cancel = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
     }
