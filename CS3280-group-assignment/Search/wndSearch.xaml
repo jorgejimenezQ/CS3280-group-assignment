@@ -7,6 +7,19 @@
         mc:Ignorable="d"
         Title="wndSearch" Height="450" Width="800">
     <Grid>
-        
+        <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveCaptionColorKey}}"/>
+        </Grid.Background>
+        <DataGrid x:Name="invoice_list" CanUserAddRows="False" Margin="21,54,272,42"/>
+        <Button x:Name="clear_bttn" Content="Clear Selection" HorizontalAlignment="Left" Margin="664,278,0,0" VerticalAlignment="Top" Height="25" Width="92" FontWeight="Bold"/>
+        <ComboBox x:Name="invoiceNumber" HorizontalAlignment="Left" Margin="643,120,0,0" VerticalAlignment="Top" Width="133" Height="27"/>
+        <ComboBox x:Name="totalCharge" HorizontalAlignment="Left" Margin="643,190,0,0" VerticalAlignment="Top" Width="133" Height="27"/>
+        <Button x:Name="select_bttn" Content="Select Invoice" HorizontalAlignment="Left" Margin="664,342,0,0" VerticalAlignment="Top" Height="25" Width="92" FontWeight="Bold"/>
+        <DatePicker x:Name="invoiceDateBox" HorizontalAlignment="Left" Margin="643,46,0,0" VerticalAlignment="Top" Width="133" FontSize="14" Height="27"/>
+        <Label Content="Invoice Date:" HorizontalAlignment="Left" Margin="554,46,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Invoice Number:" HorizontalAlignment="Left" Margin="534,121,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Total Charges:" HorizontalAlignment="Left" Margin="548,191,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Selected Invoice:" HorizontalAlignment="Left" Margin="21,17,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20"/>
+
     </Grid>
 </Window>
