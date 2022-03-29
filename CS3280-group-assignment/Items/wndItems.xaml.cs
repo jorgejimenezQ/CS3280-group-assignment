@@ -125,6 +125,11 @@ namespace CS3280_group_assignment.Items
             }
         }
 
+        /// <summary>
+        /// Only allow numbers to be entered in the cost field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtCost_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             try
