@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="Items\clsItemsLogic.cs" />
     <Compile Include="Items\clsItemsSQL.cs" />
+    <Compile Include="Items\Item.cs" />
     <Compile Include="Items\wndItems.xaml.cs">
       <DependentUpon>wndItems.xaml</DependentUpon>
     </Compile>

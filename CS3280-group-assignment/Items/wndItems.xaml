@@ -1,12 +1,162 @@
-﻿<Window x:Class="CS3280_group_assignment.Items.wndItems"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CS3280_group_assignment.Items"
-        mc:Ignorable="d"
-        Title="wndItems" Height="450" Width="800">
-    <Grid>
-        
+﻿<Window
+    x:Class="CS3280_group_assignment.Items.wndItems"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CS3280_group_assignment.Items"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Edit Items Window"
+    Width="800"
+    Height="450"
+    IsVisibleChanged="Window_IsVisibleChanged"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="SmoothCriminal" TargetType="Label">
+            <Setter Property="FontWeight" Value="Black" />
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+        <Style x:Key="SharpText" TargetType="TextBox">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Margin" Value="14" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+        <Style x:Key="SpacedOutBtn" TargetType="Button">
+            <Setter Property="Margin" Value="15" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style x:Key="ExitButton" TargetType="Button">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+    </Window.Resources>
+    <Grid Background="#FFF7F4E3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!--  ===============   Data Grid   ===============  -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="10*" />
+            </Grid.RowDefinitions>
+            <Label
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="All Items"
+                FontSize="19"
+                FontWeight="Black" />
+            <DataGrid
+                Name="dtgItems"
+                Grid.Row="1"
+                Margin="15" />
+        </Grid>
+        <Grid Grid.Column="0" Margin="20,30,20,30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  close window button  -->
+            <Button
+                Name="btnCancel"
+                Grid.Row="0"
+                Grid.Column="0"
+                Click="btnButtonClick"
+                Content="CANCEL"
+                Style="{StaticResource ExitButton}" />
+
+            <!--  window title  -->
+            <Label
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Content="Item Management"
+                Style="{StaticResource SmoothCriminal}" />
+
+            <!--  Input field  -->
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Content="DESCRIPTION:"
+                Style="{StaticResource SmoothCriminal}" />
+
+            <TextBox
+                Name="txtDescription"
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource SharpText}" />
+
+            <!--  Input Field Cost  -->
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Content="COST:  $"
+                Style="{StaticResource SmoothCriminal}" />
+
+            <TextBox
+                Name="txtCost"
+                Grid.Row="2"
+                Grid.Column="1"
+                Style="{StaticResource SharpText}" PreviewKeyDown="txtCost_PreviewKeyDown" />
+            <!--  Code  -->
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                Content="CODE: "
+                Style="{StaticResource SmoothCriminal}" />
+
+            <Label
+                Name="lblCode"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="15,0,0,0"
+                HorizontalContentAlignment="Left"
+                Style="{StaticResource SmoothCriminal}" />
+            <!--  Buttons  -->
+            <Grid
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Name="btnAdd"
+                    Grid.Column="0"
+                    Click="btnButtonClick"
+                    Content="ADD ITEM"
+                    Style="{StaticResource SpacedOutBtn}" />
+                <Button
+                    Name="btnEdit"
+                    Grid.Column="1"
+                    Click="btnButtonClick"
+                    Content="EDIT ITEM"
+                    Style="{StaticResource SpacedOutBtn}" />
+                <Button
+                    Name="btnDelete"
+                    Grid.Column="2"
+                    Click="btnButtonClick"
+                    Content="DELETE ITEM"
+                    Style="{StaticResource SpacedOutBtn}" />
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
