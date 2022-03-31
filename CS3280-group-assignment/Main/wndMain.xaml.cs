@@ -32,6 +32,10 @@ namespace CS3280_group_assignment.Main
         /// </summary>
         wndSearch search;
 
+        clsMainLogic mainLogic;
+
+        clsMainSQL mainSQL;
+
         /// <summary>
         /// Initializes form
         /// </summary>
@@ -41,8 +45,8 @@ namespace CS3280_group_assignment.Main
             {
                 InitializeComponent();
 
-                items = new wndItems();
-                search = new wndSearch();
+                mainLogic = new clsMainLogic();
+                mainSQL = new clsMainSQL();
             }
             catch (Exception ex)
             {
@@ -60,9 +64,14 @@ namespace CS3280_group_assignment.Main
         {
             try
             {
+                //Create and show new items window
+                items = new wndItems();
                 this.Hide();
                 items.ShowDialog();
                 this.Show();
+
+                //Refresh items by fetching list of items and setting the source for itemComboBox
+                //itemComboBox.ItemsSource = mainLogic.loadItems();
             }
             catch (Exception ex)
             {
@@ -80,8 +89,13 @@ namespace CS3280_group_assignment.Main
         {
             try
             {
+                //Create and show new search window
+                search = new wndSearch();
                 search.ShowDialog();
                 this.Show();
+
+                //Get selected invoice via a property and store it in mainLogic class
+                //mainLogic.setSelectedInvoice(search.selectedInvoice);
             }
             catch (Exception ex)
             {
