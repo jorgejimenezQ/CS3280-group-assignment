@@ -47,6 +47,7 @@ namespace CS3280_group_assignment.Items
                 // Init logic class and items list
                 ItemLogic = new clsItemsLogic();
                 Items = new List<Item>();
+                InvoiceNumber = "";
             }
             catch (Exception ex)
             {
@@ -72,7 +73,9 @@ namespace CS3280_group_assignment.Items
                 // Only call GetAllItems when the isVisible changes from false to true
                 if ((bool)e.NewValue)
                 {
-                    dtgItems.ItemsSource = ItemLogic.GetAllItems("5000");
+
+                    string currentInvoice = string.IsNullOrEmpty(InvoiceNumber) ? InvoiceNumber: "5000";
+                    dtgItems.ItemsSource = ItemLogic.GetAllItems(currentInvoice);
 
                 }
             }
