@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -39,10 +40,32 @@ namespace CS3280_group_assignment.Items
         {
             try
             {
-                List<Item> items = itemQuery.GetInvoiceItems(invoice);
-                if (items == null)
+                List<Item> items = new List<Item>();
+
+                // Will holds the returned data from DB
+                DataSet ds;
+                int iRet = 0; // The number of records returned
+
+                ds = db.ExecuteSQLStatement(
+                    "SELECT " +
+                    "i.ItemCode, i.ItemDesc, i.Cost " +
+                    "FROM LineItems l " +
+                    "INNER JOIN ItemDesc i " +
+                    "ON l.ItemCode = i.ItemCode " +
+                    "WHERE InvoiceNum = " + invoice, ref iRet);
+
+                foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    throw new Exception("There was an error fetching the items from database.");
+                    // Get all the item properties from the row object
+                    string code = row[0].ToString();
+                    string desc = row[1].ToString();
+                    string cost = row[2].ToString();
+
+                    // Create the item
+                    Item item = new Item(code, desc, cost);
+
+                    // And add it to the list
+                    items.Add(item);
                 }
 
                 return items;

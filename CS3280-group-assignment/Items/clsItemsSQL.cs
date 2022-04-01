@@ -9,66 +9,63 @@ using System.Threading.Tasks;
 namespace CS3280_group_assignment.Items
 {
 
-
+    /// <summary>
+    /// Holds SQL statements strings
+    /// </summary>
     public class clsItemsSQL
     {
 
         /// <summary>
-        /// Instance of the database access class that will be 
-        /// shared will all the classes that will handle the logic.
+        /// Returns the string select ItemCode, ItemDesc, Cost from ItemDesc
         /// </summary>
-        clsDataAccess db;
-
-        public clsItemsSQL()
+        /// <returns></returns>
+        public string GetItem()
         {
-            // Get access to SQL queries
-            db = new clsDataAccess();
+            return "select ItemCode, ItemDesc, Cost from ItemDesc";
         }
 
         /// <summary>
-        /// Fetches all the items from an invoice from the database
+        /// Returns the string select distinct(InvoiceNum) from LineItems where ItemCode =  Code
         /// </summary>
-        /// <param name="invoiceNumber">The invoice to query</param>
-        /// <returns></returns>
-        public List<Item> GetInvoiceItems(string invoiceNumber)
+        public string GetItemWhereCodeIs(string code)
         {
-            try
-            {
-                List<Item> items = new List<Item>();
+            return "select distinct(InvoiceNum) from LineItems where ItemCode =" + code;
+        }
 
-                // Will holds the returned data from DB
-                DataSet ds;
-                int iRet = 0; // The number of records returned
+        /// <summary>
+        /// Returns string in form Update ItemDesc Set ItemDesc = 'abcdef', Cost = 123 where ItemCode = 'A'
+        /// </summary>
+        /// <param name="desc">description</param>
+        /// <param name="cost">cost</param>
+        /// <param name="code">code</param>
+        /// <returns></returns>
+        public string UpdateItemDesc(string desc, string cost, string code)
+        {
+            return "Update ItemDesc Set ItemDesc =" + desc + ", Cost = " + cost + "where ItemCode =" + code;
+        }
 
-                ds = db.ExecuteSQLStatement(
-                    "SELECT " +
-                    "i.ItemCode, i.ItemDesc, i.Cost " +
-                    "FROM LineItems l " +
-                    "INNER JOIN ItemDesc i " +
-                    "ON l.ItemCode = i.ItemCode " +
-                    "WHERE InvoiceNum = " + invoiceNumber, ref iRet);
+        /// <summary>
+        /// returns string in form:
+        /// Insert into ItemDesc(ItemCode, ItemDesc, Cost) Values('ABC', 'blah', 321)
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="desc"></param>
+        /// <param name="cost"></param>
+        /// <returns></returns>
+        public string InsertItem(string code, string desc, string cost)
+        {
+            return "Insert into ItemDesc(ItemCode, ItemDesc, Cost) Values(" + code + " ," + desc + ", " + cost + ")";
+        }
 
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    // Get all the item properties from the row object
-                    string code = row[0].ToString();
-                    string desc = row[1].ToString();
-                    string cost = row[2].ToString();
-
-                    // Create the item
-                    Item item = new Item(code, desc, cost);
-
-                    // And add it to the list
-                    items.Add(item);
-                }
-
-                return items;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+        /// <summary>
+        /// return string in form:
+        /// Delete from ItemDesc Where ItemCode = 'ABC'
+        /// </summary>
+        /// <param name="code">code</param>
+        /// <returns></returns>
+        public string DeleteItem(string code)
+        {
+            return "Delete from ItemDesc Where ItemCode = " + code;
         }
     }
 

@@ -74,8 +74,8 @@ namespace CS3280_group_assignment.Items
                 if ((bool)e.NewValue)
                 {
 
-                    //string currentInvoice = string.IsNullOrEmpty(InvoiceNumber) ? InvoiceNumber : "5000";
-                    //dtgItems.ItemsSource = ItemLogic.GetAllItems("5000");
+                    string currentInvoice = string.IsNullOrEmpty(InvoiceNumber) ? "5000" : InvoiceNumber;
+                    dtgItems.ItemsSource = ItemLogic.GetAllItems(currentInvoice);
 
                 }
             }
