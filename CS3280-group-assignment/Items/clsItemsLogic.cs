@@ -37,7 +37,7 @@ namespace CS3280_group_assignment.Items
         /// <param name="invoiceNumber"></param>
         /// <returns></returns>
         public List<Item> GetAllItems(string invoice)
-        {
+        {/*
             try
             {
                 List<Item> items = new List<Item>();
@@ -74,7 +74,8 @@ namespace CS3280_group_assignment.Items
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
                                     MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            }*/
+            return new List<Item>();
         }
 
     }

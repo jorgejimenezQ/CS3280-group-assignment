@@ -37,7 +37,7 @@ namespace CS3280_group_assignment.Search
 
         {
 
-            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID + " AND InvoiceDate = " InvoiceDate;
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID + " AND InvoiceDate = " + InvoiceDate;
 
             return sSQL;
 
@@ -47,7 +47,7 @@ namespace CS3280_group_assignment.Search
 
         {
 
-            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID + " AND InvoiceDate = " InvoiceDate + " AND TotalCost = " TotalCost;
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID + " AND InvoiceDate = " + InvoiceDate + " AND TotalCost = " + TotalCost;
 
             return sSQL;
 
@@ -68,7 +68,7 @@ namespace CS3280_group_assignment.Search
 
         {
 
-            string sSQL = "SELECT * FROM Invoices WHERE TotalCost = " + TotalCost + " AND InvoiceDate = " InvoiceDate;
+            string sSQL = "SELECT * FROM Invoices WHERE TotalCost = " + TotalCost + " AND InvoiceDate = " +  InvoiceDate;
 
             return sSQL;
 

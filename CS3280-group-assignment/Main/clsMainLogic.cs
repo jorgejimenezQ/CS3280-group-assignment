@@ -8,7 +8,7 @@ using CS3280_group_assignment.Items;
 
 namespace CS3280_group_assignment.Main
 {
-    class clsMainLogic
+    public class clsMainLogic
     {
         /// <summary>
         /// Store list of invoices
@@ -21,11 +21,16 @@ namespace CS3280_group_assignment.Main
         clsDataAccess db;
 
         /// <summary>
+        /// Searched Invoice ID
+        /// </summary>
+        Invoice selectedInvoice;
+
+        /// <summary>
         /// Sets selected invoice
         /// </summary>
-        public void setSelectedInvoice()
+        public void setSelectedInvoice(Invoice selectedInvoice)
         {
-            
+            this.selectedInvoice = selectedInvoice;
         }
 
         /// <summary>

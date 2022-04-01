@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CS3280_group_assignment.Main;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,35 @@ namespace CS3280_group_assignment.Search
     /// </summary>
     public partial class wndSearch : Window
     {
-        public wndSearch()
+        clsMainLogic mainLogic;
+        public wndSearch(clsMainLogic _mainLogic)
         {
             InitializeComponent();
+            mainLogic = _mainLogic;
+        }
+
+        Invoice selected;
+
+        private void select_bttn_Click(object sender, RoutedEventArgs e)
+        {
+            //W/e selected invoice
+            if (selected != null)
+            {
+                mainLogic.setSelectedInvoice(selected);
+                Window window = new wndMain();
+                this.Hide();
+                window.ShowDialog();
+                this.Show();
+            }
+            else
+            {
+                warninglbl.Content = "No Invoice was selected";
+            }
+        }
+
+        private void invoice_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

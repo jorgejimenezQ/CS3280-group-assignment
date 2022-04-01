@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CS3280_group_assignment.Main
 {
-    class Invoice
+    public class Invoice
     {
         public int InvoiceNum { get; set; }
 

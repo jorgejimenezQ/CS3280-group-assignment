@@ -90,7 +90,8 @@ namespace CS3280_group_assignment.Main
             try
             {
                 //Create and show new search window
-                search = new wndSearch();
+                search = new wndSearch(mainLogic);
+                this.Hide();
                 search.ShowDialog();
                 this.Show();
 
