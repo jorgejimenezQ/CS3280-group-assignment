@@ -58,6 +58,28 @@ namespace CS3280_group_assignment.Items
         }
 
         /// <summary>
+        /// Gets the invoices that contain the item
+        /// </summary>
+        /// <param name="code">The code for the item we are looking up.</param>
+        /// <exception cref="Exception"></exception>
+        public string GetInvoicesWithItem(string code)
+        {
+            try
+            {
+                return $"SELECT COUNT(InvoiceNum) " +
+                    $"FROM LineItems " +
+                    $"WHERE ItemCode = '{code}'";
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+
+        /// <summary>
         /// return string in form:
         /// Delete from ItemDesc Where ItemCode = 'ABC'
         /// </summary>
@@ -66,6 +88,25 @@ namespace CS3280_group_assignment.Items
         public string DeleteItem(string code)
         {
             return "Delete from ItemDesc Where ItemCode = " + code;
+        }
+
+        public string GetAllItemsByInvoiceNumber(string invoice)
+        {
+            try
+            {
+                return $"SELECT " +
+                    $"i.ItemCode, i.ItemDesc, i.Cost " +
+                    $"FROM LineItems l " +
+                    $"INNER JOIN ItemDesc i " +
+                    $"ON l.ItemCode = i.ItemCode " +
+                    $"WHERE InvoiceNum =  {invoice}";
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
     }
 

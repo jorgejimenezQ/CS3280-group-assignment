@@ -112,6 +112,10 @@ namespace CS3280_group_assignment.Items
 
                 if (button.Name == btnDelete.Name)
                 {
+
+                    
+                    string code = "K";
+                    ItemLogic.hasItemInvoice(code);
                     return;
                 }
 
