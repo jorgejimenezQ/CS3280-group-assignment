@@ -76,6 +76,21 @@ namespace CS3280_group_assignment.Items
             }
         }
 
+        public void InsertItem(string itemCode, string description, string cost)
+        { 
+            try
+            {
+                // Get statement string and execute
+                string stmt = itemQuery.InsertItem(itemCode, description, cost); 
+                db.ExecuteNonQuery(stmt);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
 
         public void UpdateItem(string itemCode, string description = null, string cost = null)
         { 
@@ -104,6 +119,51 @@ namespace CS3280_group_assignment.Items
             {
                 int iRet = 0;
                 iRet = db.ExecuteNonQuery(itemQuery.DeleteItem(code));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Returns an item by the item code
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public List<Item> GetItemByCode(string itemCode)
+        { 
+            try
+            {
+                List<Item> items = new List<Item>(); 
+
+                // Will holds the returned data from DB
+                DataSet ds;
+                int iRet = 0; // The number of records returned
+
+                ds = db.ExecuteSQLStatement(
+                    itemQuery.GetItemWhereCodeIs(itemCode), 
+                    ref iRet);
+
+                if (ds.Tables[0].Rows.Count == 0)
+                    return null;
+
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    // Get all the item properties from the row object
+                    string code = row[0].ToString();
+                    string desc = row[1].ToString();
+                    string cost = row[2].ToString();
+
+                    // Create the item
+                    Item item = new Item(code, desc, cost);
+
+                    // And add it to the list
+                    items.Add(item);
+                }
+
+                return items;
             }
             catch (Exception ex)
             {
@@ -198,4 +258,4 @@ namespace CS3280_group_assignment.Items
 
     }
 
-}
+} 

@@ -29,7 +29,7 @@ namespace CS3280_group_assignment.Items
         /// </summary>
         public string GetItemWhereCodeIs(string code)
         {
-            return "select distinct(InvoiceNum) from LineItems where ItemCode =" + code;
+            return $"select * from LineItems where ItemCode = '{code}'";
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace CS3280_group_assignment.Items
         /// <returns></returns>
         public string InsertItem(string code, string desc, string cost)
         {
-            return "Insert into ItemDesc(ItemCode, ItemDesc, Cost) Values(" + code + " ," + desc + ", " + cost + ")";
+            return $"Insert into ItemDesc(ItemCode, ItemDesc, Cost) Values('{code}', '{desc}', '{cost}')";
         }
 
         /// <summary>

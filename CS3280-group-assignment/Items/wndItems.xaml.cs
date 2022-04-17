@@ -102,12 +102,11 @@ namespace CS3280_group_assignment.Items
                 // Code should be set
                 if (String.IsNullOrEmpty(code))
                 {
-                    SetErrorMsg("Please select an item to start editing.");
+                    SetErrorMsg("Please select an item to start editing or fill out form to add an item.");
                     return;
                 }
 
-                lblErrorMsg.Content = "";
-                lblErrorMsg.Visibility = Visibility.Collapsed;
+                ClearError();
 
                 Button button = (Button)sender;
 
@@ -125,7 +124,22 @@ namespace CS3280_group_assignment.Items
                 // Add ...
                 if (button.Name == btnAdd.Name)
                 {
-                    //TODO: validate and implement method
+                    //TODO: validate and implement
+                    Item item = (Item)dtgItems.SelectedItem;
+                    string description = txtDescription.Text;
+                    string cost = txtCost.Text;
+
+                    List<Item> items = ItemLogic.GetItemByCode(code);
+
+                    if (items != null)
+                        SetErrorMsg("The code submitted already exists.");
+
+                    // Save item
+                    ItemLogic.InsertItem(code, description, cost);
+
+                    UpdateDataGrid();
+                    ClearError();
+                    
                     return;
                 }
 
@@ -260,6 +274,25 @@ namespace CS3280_group_assignment.Items
 
         /********  HELPERS *********/
 
+
+        /// <summary>
+        /// Removes the message error
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void ClearError()
+        {
+            try
+            {
+                lblErrorMsg.Content = "";
+                lblErrorMsg.Visibility = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
         /// <summary>
         /// Show an error message to the user 
         /// </summary>
@@ -278,6 +311,7 @@ namespace CS3280_group_assignment.Items
                                     MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
+
         /// <summary>
         /// Updates the description, cost, and code fields
         /// </summary>
