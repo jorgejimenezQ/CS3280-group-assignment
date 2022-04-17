@@ -20,7 +20,7 @@ namespace CS3280_group_assignment.Items
         /// <summary>
         /// Gets or sets the item's Code.
         /// </summary>
-        public string Code { set; get; }
+        public string Code { private set; get; }
 
         /// <summary>
         /// Gets or sets the item's cost.

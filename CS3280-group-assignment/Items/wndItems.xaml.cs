@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -73,10 +74,7 @@ namespace CS3280_group_assignment.Items
                 // Only call GetAllItems when the isVisible changes from false to true
                 if ((bool)e.NewValue)
                 {
-
-                    string currentInvoice = string.IsNullOrEmpty(InvoiceNumber) ? "5000" : InvoiceNumber;
-                    dtgItems.ItemsSource = ItemLogic.GetAllItems(currentInvoice);
-
+                    UpdateDataGrid();
                 }
             }
             catch (Exception ex)
@@ -96,31 +94,112 @@ namespace CS3280_group_assignment.Items
 
             try
             {
+                // TODO: Do we need to trigger an event for the main window
+
+                // Get the code
+                string code = lblCode.Text.ToString();
+
+                // Code should be set
+                if (String.IsNullOrEmpty(code))
+                {
+                    SetErrorMsg("Please select an item to start editing.");
+                    return;
+                }
+
+                lblErrorMsg.Content = "";
+                lblErrorMsg.Visibility = Visibility.Collapsed;
+
                 Button button = (Button)sender;
 
+                // What button was called?
+
+                // Cancel ...
                 if (button.Name == btnCancel.Name)
                 {
+                    // TODO: Send event to main?
                     this.Hide();
 
                     return;
                 }
 
+                // Add ...
                 if (button.Name == btnAdd.Name)
                 {
+                    //TODO: validate and implement method
                     return;
                 }
 
+                // Delete ...
                 if (button.Name == btnDelete.Name)
                 {
-
+                    List<string> invoices = ItemLogic.GetInvoiceWithItem(code);
                     
-                    string code = "K";
-                    ItemLogic.hasItemInvoice(code);
+                    // The item belongs to invoices
+                    if (invoices != null)
+                    {
+                        // Set the error
+                        lblErrorMsg.Visibility = Visibility.Visible;
+                        lblErrorMsg.Content = "Error: The item is used in the following invoices";
+
+                        foreach (string invoice in invoices)
+                        {
+                            lblErrorMsg.Content += " - " + invoice;
+                        }
+
+                        // Don't do anything
+                        return;
+                    }
+
+                    // Else delete
+                    ItemLogic.DeleteItem(code);
+
+                    // Update the data grid
+                    UpdateDataGrid();
+                    ClearUIText();
                     return;
                 }
 
+                // Edit
                 if (button.Name == btnEdit.Name)
                 {
+                    string description;
+                    string cost;
+                    Item selItem = (Item)dtgItems.SelectedItem;
+
+                    
+
+                    // Validate the input
+                    if (!String.IsNullOrEmpty(txtDescription.Text))
+                        description = txtDescription.Text;
+                    else
+                        description = null;
+
+                    if (!String.IsNullOrEmpty(txtCost.Text))
+                        cost = txtCost.Text;
+                    else
+                        cost = null;
+
+                    // Don't do anything if the inputs have not been changed
+                    if (cost == selItem.Cost)
+                        cost = null;
+
+                    if (description == selItem.Description)
+                        description = null;
+
+                    if (String.IsNullOrEmpty(description) && String.IsNullOrEmpty(cost))
+                    {
+                        SetErrorMsg("At least one field, except code, must be changed.");
+                        return;
+                    }
+
+                    
+                    // TODO: Validate string length
+
+                    // Update item
+                    ItemLogic.UpdateItem(code, description, cost);
+
+                    UpdateDataGrid();
+                    
                     return;
                 }
 
@@ -155,6 +234,105 @@ namespace CS3280_group_assignment.Items
             {
                 clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        private void dtgItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                // Get the selected item from the data grid
+                DataGrid dg = (DataGrid)sender;
+                Item selectedItem = (Item)dg.SelectedItem;
+
+                if (selectedItem == null) return;
+
+                // Update the UI
+                SetUIText(selectedItem.Description, selectedItem.Cost, selectedItem.Code);
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+
+        /********  HELPERS *********/
+
+        /// <summary>
+        /// Show an error message to the user 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <exception cref="Exception"></exception>
+        public void SetErrorMsg(string msg)
+        {
+            try
+            {
+                lblErrorMsg.Content = msg;
+                lblErrorMsg.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+        /// <summary>
+        /// Updates the description, cost, and code fields
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="cost"></param>
+        /// <param name="code"></param>
+        /// <exception cref="Exception"></exception>
+        public void SetUIText(string description, string cost, string code)
+        {
+            try
+            {
+                txtDescription.Text = description;
+                txtCost.Text = cost;
+                lblCode.Text = code;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Clears the code and the user input
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void ClearUIText()
+        {
+            try
+            {
+                txtDescription.Text = string.Empty;
+                txtCost.Text = string.Empty;
+                lblCode.Text = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+ 
+        /// <summary>
+        /// Updates and sorts the Datagrid
+        /// </summary>
+        public void UpdateDataGrid()
+        {
+            try
+            {
+                dtgItems.ItemsSource = ItemLogic.GetAllItems();
+                dtgItems.Items.SortDescriptions.Add(new SortDescription("Code", ListSortDirection.Ascending));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
     }

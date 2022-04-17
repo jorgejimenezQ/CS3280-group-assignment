@@ -66,10 +66,10 @@ namespace CS3280_group_assignment.Items
         {
             try
             {
-                return $"SELECT COUNT(InvoiceNum) " +
+                return $"" +
+                    $"SELECT InvoiceNum " +
                     $"FROM LineItems " +
-                    $"WHERE ItemCode = '{code}'";
-
+                    $"WHERE ItemCode ='{code}'";
             }
             catch (Exception ex)
             {
@@ -78,7 +78,52 @@ namespace CS3280_group_assignment.Items
             }
         }
 
+        /// <summary>
+        /// Updates an item
+        /// </summary>
+        /// <param name="itemCode"></param>
+        /// <param name="description"></param>
+        /// <param name="cost"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public string UpdateItem(string itemCode, string description = "", string cost = "") 
+        {
+            try
+            {
 
+                string stmt = $"UPDATE ItemDesc " +
+                    $"SET ";
+
+                // At a minimum description or cost must be passed in
+                if (String.IsNullOrEmpty(cost) && String.IsNullOrEmpty(description))
+                    throw new Exception("The description or the cost must be set. ");
+
+                // Set the cost
+                if (!String.IsNullOrEmpty(cost))
+                    stmt += $"Cost = {cost} ";
+
+                // Set the description
+                if (!String.IsNullOrEmpty(description))
+                {
+                    if (!String.IsNullOrEmpty(cost))
+                        stmt += ", ";
+
+                    stmt += $"ItemDesc = '{description}' ";
+
+                }
+
+                // Add the where clause
+                stmt += $"WHERE ItemCode = '{itemCode}'";
+                
+                return stmt;    
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
         /// <summary>
         /// return string in form:
         /// Delete from ItemDesc Where ItemCode = 'ABC'
@@ -87,7 +132,7 @@ namespace CS3280_group_assignment.Items
         /// <returns></returns>
         public string DeleteItem(string code)
         {
-            return "Delete from ItemDesc Where ItemCode = " + code;
+            return $"Delete from ItemDesc Where ItemCode = '{code}'";
         }
 
         public string GetAllItemsByInvoiceNumber(string invoice)
