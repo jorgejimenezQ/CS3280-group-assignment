@@ -132,7 +132,10 @@ namespace CS3280_group_assignment.Items
                     List<Item> items = ItemLogic.GetItemByCode(code);
 
                     if (items != null)
+                    {
                         SetErrorMsg("The code submitted already exists.");
+                        return;
+                    }
 
                     // Save item
                     ItemLogic.InsertItem(code, description, cost);
