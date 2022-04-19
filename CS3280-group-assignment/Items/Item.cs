@@ -27,6 +27,15 @@ namespace CS3280_group_assignment.Items
         /// </summary>
         public string Cost { set; get; }
 
+        /// <summary>
+        /// Returns the item's description for the ToString() method
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Description;
+        }
+
         public Item(string code, string description, string cost)
         {
             this.Code = code;

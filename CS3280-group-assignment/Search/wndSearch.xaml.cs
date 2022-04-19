@@ -27,7 +27,7 @@ namespace CS3280_group_assignment.Search
             mainLogic = _mainLogic;
         }
 
-        Invoice selected;
+        clsInvoice selected;
 
         private void select_bttn_Click(object sender, RoutedEventArgs e)
         {
