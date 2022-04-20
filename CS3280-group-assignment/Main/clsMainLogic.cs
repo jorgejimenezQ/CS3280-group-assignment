@@ -12,17 +12,19 @@ namespace CS3280_group_assignment.Main
     public class clsMainLogic
     {
         /// <summary>
-        /// 
+        /// peforms database actions
         /// </summary>
         private clsDataAccess db;
 
+        /// <summary>
+        /// holds sql statements
+        /// </summary>
         private clsMainSQL sql;
 
         /// <summary>
         /// Searched Invoice ID
         /// </summary>
         public clsInvoice selectedInvoice;
-
         
 
         /// <summary>
@@ -71,89 +73,176 @@ namespace CS3280_group_assignment.Main
             }
         }
         
+        /// <summary>
+        /// Gets all items belonging to the selected invoice
+        /// </summary>
+        /// <returns></returns>
         public List<Item> getInvoiceItems()
         {
-            List<Item> items = new List<Item>();
-            sql = new clsMainSQL();
-            db = new clsDataAccess();
-            DataSet ds;
-            int iRet = 0;
-
-            ds = db.ExecuteSQLStatement(sql.SelectInvoiceItems(selectedInvoice.InvoiceNum),
-                    ref iRet);
-            for(int i = 0; i < iRet; i++)
+            try
             {
-                Item item = new Item(ds.Tables[0].Rows[i][0].ToString(),
-                        ds.Tables[0].Rows[i][1].ToString(), ds.Tables[0].Rows[i][2].ToString());
-                items.Add(item);
-            }
+                List<Item> items = new List<Item>();
+                sql = new clsMainSQL();
+                db = new clsDataAccess();
+                DataSet ds;
+                int iRet = 0;
 
-            return items;
+                ds = db.ExecuteSQLStatement(sql.SelectInvoiceItems(selectedInvoice.InvoiceNum),
+                        ref iRet);
+                for (int i = 0; i < iRet; i++)
+                {
+                    Item item = new Item(ds.Tables[0].Rows[i][0].ToString(),
+                            ds.Tables[0].Rows[i][1].ToString(), ds.Tables[0].Rows[i][2].ToString());
+                    items.Add(item);
+                }
+
+                return items;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
+        /// <summary>
+        /// gets details of selected invoice
+        /// </summary>
         public void getInvoiceDetails()
         {
-            sql = new clsMainSQL();
-            db = new clsDataAccess();
-            DataSet ds;
-            int iRet = 0;
+            try
+            {
+                sql = new clsMainSQL();
+                db = new clsDataAccess();
+                DataSet ds;
+                int iRet = 0;
 
-            ds = db.ExecuteSQLStatement(sql.SelectInvoiceData(selectedInvoice.InvoiceNum), ref iRet);
+                ds = db.ExecuteSQLStatement(sql.SelectInvoiceData(selectedInvoice.InvoiceNum), ref iRet);
 
-            selectedInvoice.InvoiceDate = ds.Tables[0].Rows[0][1].ToString();
-            selectedInvoice.TotalCost = ds.Tables[0].Rows[0][2].ToString();
+                selectedInvoice.InvoiceDate = ds.Tables[0].Rows[0][1].ToString();
+                selectedInvoice.TotalCost = ds.Tables[0].Rows[0][2].ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Inserts invoice into database
+        /// </summary>
+        /// <param name="invoice"></param>
+        /// <returns></returns>
         public String insertInvoice(clsInvoice invoice)
         {
-            sql = new clsMainSQL();
-            db = new clsDataAccess();
-            int iRet = 0;
-            String invoiceNum;
+            try
+            {
+                sql = new clsMainSQL();
+                db = new clsDataAccess();
+                int iRet = 0;
+                String invoiceNum;
 
-            iRet = db.ExecuteNonQuery(sql.InsertInvoice(invoice.InvoiceDate, invoice.TotalCost));
+                iRet = db.ExecuteNonQuery(sql.InsertInvoice(invoice.InvoiceDate, invoice.TotalCost));
 
-            String max = "SELECT MAX(InvoiceNum) FROM Invoices";
+                String max = "SELECT MAX(InvoiceNum) FROM Invoices";
 
-            invoiceNum = db.ExecuteScalarSQL(max);
+                invoiceNum = db.ExecuteScalarSQL(max);
 
-            return invoiceNum;
+                return invoiceNum;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Inserts line item into database
+        /// </summary>
+        /// <param name="InvoiceNum"></param>
+        /// <param name="LineItemNum"></param>
+        /// <param name="ItemCode"></param>
         public void insertInvoiceItem(String InvoiceNum, String LineItemNum, String ItemCode)
         {
-            sql = new clsMainSQL();
-            db = new clsDataAccess();
-            int iRet = 0;
+            try
+            {
+                sql = new clsMainSQL();
+                db = new clsDataAccess();
+                int iRet = 0;
 
-            iRet = db.ExecuteNonQuery(sql.InsertLineItem(InvoiceNum, LineItemNum, ItemCode));
+                iRet = db.ExecuteNonQuery(sql.InsertLineItem(InvoiceNum, LineItemNum, ItemCode));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Deletes all line items belonging to given invoice
+        /// </summary>
+        /// <param name="InvoiceNum"></param>
         public void deleteInvoiceItems(String InvoiceNum)
         {
-            sql = new clsMainSQL();
-            db = new clsDataAccess();
-            int iRet = 0;
+            try
+            {
+                sql = new clsMainSQL();
+                db = new clsDataAccess();
+                int iRet = 0;
 
-            iRet = db.ExecuteNonQuery(sql.DeleteLineItem(InvoiceNum));
+                iRet = db.ExecuteNonQuery(sql.DeleteLineItem(InvoiceNum));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Updates total cost of an invoice
+        /// </summary>
+        /// <param name="InvoiceNum"></param>
+        /// <param name="TotalCost"></param>
         public void updateInvoice(String InvoiceNum, String TotalCost)
         {
-            sql = new clsMainSQL();
-            db = new clsDataAccess();
-            int iRet = 0;
+            try
+            {
+                sql = new clsMainSQL();
+                db = new clsDataAccess();
+                int iRet = 0;
 
-            iRet = db.ExecuteNonQuery(sql.UpdateTotalCost(InvoiceNum, TotalCost));
+                iRet = db.ExecuteNonQuery(sql.UpdateTotalCost(InvoiceNum, TotalCost));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Delete an invoice from the database
+        /// </summary>
+        /// <param name="InvoiceNum"></param>
         public void deleteInvoice(String InvoiceNum)
         {
-            sql = new clsMainSQL();
-            db = new clsDataAccess();
-            int iRet = 0;
+            try
+            {
+                sql = new clsMainSQL();
+                db = new clsDataAccess();
+                int iRet = 0;
 
-            iRet = db.ExecuteNonQuery(sql.DeleteInvoice(InvoiceNum));
+                iRet = db.ExecuteNonQuery(sql.DeleteInvoice(InvoiceNum));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
     }
 }
