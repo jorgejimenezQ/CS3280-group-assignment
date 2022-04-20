@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using CS3280_group_assignment.Items;
 using CS3280_group_assignment.Search;
 using System.Reflection;
+using System.Globalization;
 
 namespace CS3280_group_assignment.Main
 {
@@ -35,6 +36,8 @@ namespace CS3280_group_assignment.Main
         clsMainLogic mainLogic;
 
         Boolean creating;
+
+        List<Item> itemsList;
 
         /// <summary>
         /// Initializes form
@@ -101,14 +104,28 @@ namespace CS3280_group_assignment.Main
             {
                 lblError.Visibility = Visibility.Hidden;
                 //Create and show new search window
+                mainLogic.selectedInvoice = null;
                 search = new wndSearch(mainLogic);
                 this.Hide();
                 search.ShowDialog();
                 this.Show();
 
+                if (mainLogic.selectedInvoice == null)
+                    return;
+
                 //Load invoice items into data grid and other data into respective boxes
                 lockForm();
 
+                itemsList = mainLogic.getInvoiceItems();
+                dgItems.ItemsSource = itemsList;
+                dgItems.Items.Refresh();
+
+                mainLogic.getInvoiceDetails();
+                tbTotal.Text = Double.Parse(mainLogic.selectedInvoice.TotalCost).ToString("C2");
+                tbNumber.Text = mainLogic.selectedInvoice.InvoiceNum;
+                dpInvoice.Text = mainLogic.selectedInvoice.InvoiceDate;
+                dpInvoice.SelectedDate = DateTime.Parse(mainLogic.selectedInvoice.InvoiceDate);
+                
             }
             catch (Exception ex)
             {
@@ -138,6 +155,7 @@ namespace CS3280_group_assignment.Main
 
         private void bCreate_Click(object sender, RoutedEventArgs e)
         {
+            lblError.Visibility = Visibility.Hidden;
             if (creating)
             {
                 MessageBoxResult result;
@@ -153,8 +171,11 @@ namespace CS3280_group_assignment.Main
             dpInvoice.Text = "";
             tbNumber.Text = "TBD";
             tbTotal.Text = "$0.00";
+            dgItems.ItemsSource = null;
+            dgItems.Items.Refresh();
 
-            
+            itemsList = new List<Item>();
+            mainLogic.selectedInvoice = null;
         }
 
         private void cbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -171,27 +192,134 @@ namespace CS3280_group_assignment.Main
 
         private void bAdd_Click(object sender, RoutedEventArgs e)
         {
+            lblError.Visibility = Visibility.Hidden;
             bSave.IsEnabled = true;
+            bRemove.IsEnabled = true;
             Item item = (Item)cbItems.SelectedItem;
+
             //Get rid of $ so string can be parsed
             tbTotal.Text = tbTotal.Text.Replace('$', '0');
             tbTotal.Text = (Double.Parse(tbTotal.Text) + Double.Parse(item.Cost)).ToString("C2");
+
             //Add item to datagrid
+            itemsList.Add(item);
+            dgItems.ItemsSource = itemsList;
+            dgItems.Items.Refresh();
+        }
+
+        private void bRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if(dgItems.SelectedItem == null)
+            {
+                lblError.Visibility = Visibility.Visible;
+                lblError.Content = "Please select an item to remove from the data grid.";
+                return;
+            }
+            lblError.Visibility = Visibility.Hidden;
+
+            Item item = (Item)dgItems.SelectedItem;
+            itemsList.Remove(item);
+            dgItems.ItemsSource = itemsList;
+            dgItems.Items.Refresh();
+
+            tbTotal.Text = tbTotal.Text.Replace('$', '0');
+            tbTotal.Text = (Double.Parse(tbTotal.Text) - Double.Parse(item.Cost)).ToString("C2");
         }
 
         private void bSave_Click(object sender, RoutedEventArgs e)
         {
-            lockForm();
+            lblError.Visibility = Visibility.Hidden;
 
+            if(dgItems.Items.Count == 0)
+            {
+                lblError.Visibility = Visibility.Visible;
+                lblError.Content = "Please add an item to the invoice.";
+                return;
+            }
+
+            //insert new invoice
+            if(mainLogic.selectedInvoice == null)
+            {
+                DateTime result;
+                
+                if (dpInvoice.SelectedDate == null ||
+                    DateTime.TryParseExact(dpInvoice.Text, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+                {
+                    lblError.Visibility = Visibility.Visible;
+                    lblError.Content = "Please enter a valid date. (mm/dd/yyyy)";
+                    return;
+                }
+                //add
+                String total = tbTotal.Text.Replace('$', '0');
+                clsInvoice invoice = new clsInvoice(dpInvoice.Text, Double.Parse(total).ToString());
+                mainLogic.selectedInvoice = invoice;
+                mainLogic.selectedInvoice.InvoiceNum = mainLogic.insertInvoice(invoice);
+                tbNumber.Text = mainLogic.selectedInvoice.InvoiceNum;
+                int lineItemNum = 1;
+                foreach(Item item in itemsList)
+                {
+                    mainLogic.insertInvoiceItem(invoice.InvoiceNum, lineItemNum.ToString(), item.Code);
+                    lineItemNum++;
+                }
+            }
             //update invoice
+            else
+            {
+                //update
+                String total = tbTotal.Text.Replace('$', '0');
+                mainLogic.updateInvoice(mainLogic.selectedInvoice.InvoiceNum, Double.Parse(total).ToString());
+                //delete old items
+                mainLogic.deleteInvoiceItems(mainLogic.selectedInvoice.InvoiceNum);
+                int lineItemNum = 1;
+                foreach (Item item in itemsList)
+                {
+                    mainLogic.insertInvoiceItem(mainLogic.selectedInvoice.InvoiceNum, lineItemNum.ToString(), item.Code);
+                    lineItemNum++;
+                }
+            }
+            lockForm();
         }
 
         private void bEdit_Click(object sender, RoutedEventArgs e)
         {
+            lblError.Visibility = Visibility.Hidden;
             openForm();
 
             bSave.IsEnabled = true;
+            bRemove.IsEnabled = true;
+            dpInvoice.IsEnabled = false;
         }
+
+        private void bDelete_Click(object sender, RoutedEventArgs e)
+        {
+            lblError.Visibility = Visibility.Hidden;
+            MessageBoxResult result;
+            result = MessageBox.Show("Are you sure you want to delete this invoice?", "Delete Invoice",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Cancel || result == MessageBoxResult.No)
+                return;
+
+            //Delete invoice and all from line items with invoiceNum
+            mainLogic.deleteInvoiceItems(mainLogic.selectedInvoice.InvoiceNum);
+            mainLogic.deleteInvoice(mainLogic.selectedInvoice.InvoiceNum);
+
+            //Reset form
+            lockForm();
+            tbNumber.IsEnabled = false;
+            tbTotal.IsEnabled = false;
+            bEdit.IsEnabled = false;
+            bDelete.IsEnabled = false;
+            tbTotal.Text = "";
+            dpInvoice.Text = "";
+            dpInvoice.SelectedDate = null;
+            dgItems.ItemsSource = null;
+            dgItems.Items.Refresh();
+            mainLogic.selectedInvoice = null;
+            itemsList = null;
+            tbNumber.Text = "";
+        }
+
+
 
         private void lockForm()
         {
@@ -229,13 +357,6 @@ namespace CS3280_group_assignment.Main
             tbCost.Text = "";
         }
 
-        private void bDelete_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult result;
-            result = MessageBox.Show("Are you sure you want to delete this invoice?", "Delete Invoice",
-                MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Cancel || result == MessageBoxResult.No)
-                return;
-        }
+        
     }
 }

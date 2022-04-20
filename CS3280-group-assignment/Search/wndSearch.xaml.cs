@@ -35,7 +35,7 @@ namespace CS3280_group_assignment.Search
             if (selected != null)
             {
                 ///bring the wndMain back with the selected invoice
-                mainLogic.setSelectedInvoice(selected);
+                mainLogic.selectedInvoice = selected;
                 Window window = new wndMain();
                 this.Hide();
                 window.ShowDialog();

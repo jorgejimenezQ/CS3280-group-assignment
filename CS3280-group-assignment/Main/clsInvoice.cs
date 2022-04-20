@@ -8,11 +8,17 @@ namespace CS3280_group_assignment.Main
 {
     public class clsInvoice
     {
-        public int InvoiceNum { get; set; }
+        public String InvoiceNum { get; set; }
 
-        public DateTime InvoiceDate { get; set; }
+        public String InvoiceDate { get; set; }
 
-        public int TotalCost { get; set; }
+        public String TotalCost { get; set; }
+
+        public clsInvoice(String InvoiceDate, String TotalCost)
+        {
+            this.InvoiceDate = InvoiceDate;
+            this.TotalCost = TotalCost;
+        }
 
     }
 }

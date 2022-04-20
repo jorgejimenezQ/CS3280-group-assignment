@@ -14,9 +14,9 @@ namespace CS3280_group_assignment.Main
         /// <param name="TotalCost"></param>
         /// <param name="InvoiceNum"></param>
         /// <returns></returns>
-        public string UpdateTotalCost(string TotalCost, string InvoiceNum)
+        public String UpdateTotalCost(String TotalCost, String InvoiceNum)
         {
-            string sSQL = "UPDATE Invoices SET TotalCost = " + TotalCost + " WHERE InvoiceNum = " + InvoiceNum;
+            String sSQL = "UPDATE Invoices SET TotalCost = " + TotalCost + " WHERE InvoiceNum = " + InvoiceNum;
             return sSQL;
         }
 
@@ -25,9 +25,9 @@ namespace CS3280_group_assignment.Main
         /// </summary>
         /// <param name="InvoiceNum"></param>
         /// <returns></returns>
-        public string DeleteLineItem(string InvoiceNum, string ItemCode)
+        public String DeleteLineItem(String InvoiceNum)
         {
-            string sSQL = "DELETE From LineItems WHERE InvoiceNum = " + InvoiceNum + " AND ItemCode = " + ItemCode;
+            String sSQL = "DELETE From LineItems WHERE InvoiceNum = " + InvoiceNum;
             return sSQL;
         }
 
@@ -36,9 +36,9 @@ namespace CS3280_group_assignment.Main
         /// </summary>
         /// <param name="InvoiceNum"></param>
         /// <returns></returns>
-        public string DeleteInvoice(string InvoiceNum)
+        public String DeleteInvoice(String InvoiceNum)
         {
-            string sSQL = "DELETE From Invoices WHERE InvoiceNum = " + InvoiceNum;
+            String sSQL = "DELETE From Invoices WHERE InvoiceNum = " + InvoiceNum;
             return sSQL;
         }
 
@@ -49,9 +49,9 @@ namespace CS3280_group_assignment.Main
         /// <param name="LineItemNum"></param>
         /// <param name="ItemCode"></param>
         /// <returns></returns>
-        public string InsertLineItem(string InvoiceNum, string LineItemNum, string ItemCode)
+        public String InsertLineItem(String InvoiceNum, String LineItemNum, String ItemCode)
         {
-            string sSQL = "INSERT INTO LineItems(InvoiceNum, LineItemNum, ItemCode) Values(" + InvoiceNum + ", " +
+            String sSQL = "INSERT INTO LineItems(InvoiceNum, LineItemNum, ItemCode) Values(" + InvoiceNum + ", " +
                             LineItemNum + ", '" + ItemCode + "')";
             return sSQL;
         }
@@ -62,9 +62,9 @@ namespace CS3280_group_assignment.Main
         /// <param name="InvoiceDate"></param>
         /// <param name="TotalCost"></param>
         /// <returns></returns>
-        public string InsertInvoice(string InvoiceDate, string TotalCost)
+        public String InsertInvoice(String InvoiceDate, String TotalCost)
         {
-            string sSQL = "INSERT INTO Invoices(InvoiceDate, TotalCost) Values('#" + InvoiceDate + "#', " +
+            String sSQL = "INSERT INTO Invoices(InvoiceDate, TotalCost) Values(#" + InvoiceDate + "#, " +
                             TotalCost + ")";
             return sSQL;
         }
@@ -74,9 +74,9 @@ namespace CS3280_group_assignment.Main
         /// </summary>
         /// <param name="InvoiceNum"></param>
         /// <returns></returns>
-        public string SelectInvoiceData(string InvoiceNum)
+        public String SelectInvoiceData(String InvoiceNum)
         {
-            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + InvoiceNum;
+            String sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + InvoiceNum;
             return sSQL;
         }
 
@@ -84,9 +84,9 @@ namespace CS3280_group_assignment.Main
         /// Selects all items from ItemDesc
         /// </summary>
         /// <returns></returns>
-        public string SelectAllItems()
+        public String SelectAllItems()
         {
-            string sSQL = "SELECT * FROM ItemDesc";
+            String sSQL = "SELECT * FROM ItemDesc";
             return sSQL;
         }
 
@@ -95,9 +95,9 @@ namespace CS3280_group_assignment.Main
         /// </summary>
         /// <param name="InvoiceNum"></param>
         /// <returns></returns>
-        public string SelectInvoiceItems(string InvoiceNum)
+        public String SelectInvoiceItems(String InvoiceNum)
         {
-            string sSQL = "SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost FROM LineItems, ItemDesc Where LineItems.ItemCode = ItemDesc.ItemCode And LineItems.InvoiceNum = " + InvoiceNum;
+            String sSQL = "SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost FROM LineItems, ItemDesc Where LineItems.ItemCode = ItemDesc.ItemCode And LineItems.InvoiceNum = " + InvoiceNum;
             return sSQL;
         }
     }

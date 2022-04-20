@@ -321,18 +321,18 @@
             <MenuItem x:Name="searchMenu" Header="  Search" Style="{DynamicResource MenuItemStyle1}" Click="searchMenu_Click"/>
             <MenuItem x:Name="itemsMenu" Header="  Items" Height="38" Width="80" Style="{DynamicResource MenuItemStyle1}" Click="itemsMenu_Click"/>
         </Menu>
-        <DataGrid x:Name="dgItems" HorizontalAlignment="Left" Height="321" Margin="423,69,0,0" VerticalAlignment="Top" Width="339" FontSize="14"/>
+        <DataGrid x:Name="dgItems" HorizontalAlignment="Left" Height="321" Margin="423,69,0,0" VerticalAlignment="Top" Width="339" FontSize="14" IsReadOnly="True" SelectionMode="Single" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False"/>
         <Label Content="Invoice Date" HorizontalAlignment="Left" Margin="12,138,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.429,0.219"/>
         <DatePicker x:Name="dpInvoice" HorizontalAlignment="Left" Margin="103,141,0,0" VerticalAlignment="Top" Width="132" FontSize="14" IsEnabled="False" IsDropDownOpen="True"/>
         <Label Content="Invoice Number" HorizontalAlignment="Left" Margin="251,141,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.429,0.219"/>
-        <TextBox x:Name="tbNumber" HorizontalAlignment="Left" Height="23" Margin="360,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" FontSize="14" TextAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+        <TextBox x:Name="tbNumber" HorizontalAlignment="Left" Height="23" Margin="360,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="47" FontSize="14" TextAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
         <Label Content="Item" HorizontalAlignment="Left" Margin="10,199,0,0" VerticalAlignment="Top" FontSize="14"/>
         <ComboBox x:Name="cbItems" HorizontalAlignment="Left" Margin="53,203,0,0" VerticalAlignment="Top" Width="182" FontSize="14" IsEnabled="False" SelectionChanged="cbItems_SelectionChanged" MaxDropDownHeight="180"/>
-        <Label Content="Cost" HorizontalAlignment="Left" Margin="263,203,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <TextBox x:Name="tbCost" HorizontalAlignment="Left" Height="23" Margin="305,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" FontSize="14" IsReadOnly="True" IsEnabled="False"/>
+        <Label Content="Cost" HorizontalAlignment="Left" Margin="273,203,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="tbCost" HorizontalAlignment="Left" Height="23" Margin="315,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" FontSize="14" IsReadOnly="True" IsEnabled="False"/>
         <Label Content="Total cost" HorizontalAlignment="Left" Margin="230,267,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="1.169,0.677"/>
         <TextBlock HorizontalAlignment="Left" Margin="533,38,0,0" TextWrapping="Wrap" Text="Invoice Items" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" TextDecorations="Underline"/>
-        <TextBox x:Name="tbTotal" HorizontalAlignment="Left" Height="23" Margin="300,272,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="107" FontSize="14" IsReadOnly="True" IsEnabled="False"/>
+        <TextBox x:Name="tbTotal" HorizontalAlignment="Left" Height="23" Margin="300,273,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="107" FontSize="14" IsReadOnly="True" IsEnabled="False"/>
         <Button x:Name="bAdd" Content="Add Item" HorizontalAlignment="Left" Margin="12,267,0,0" VerticalAlignment="Top" Width="74" Height="36" FontSize="14" IsEnabled="False" Click="bAdd_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -341,7 +341,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="bRemove" Content="Remove Item" HorizontalAlignment="Left" Margin="126,267,0,0" VerticalAlignment="Top" Width="94" Height="36" FontSize="14" IsEnabled="False">
+        <Button x:Name="bRemove" Content="Remove Item" HorizontalAlignment="Left" Margin="126,267,0,0" VerticalAlignment="Top" Width="94" Height="36" FontSize="14" IsEnabled="False" Click="bRemove_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFE27979" Offset="0"/>
