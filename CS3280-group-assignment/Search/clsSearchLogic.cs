@@ -17,43 +17,61 @@ namespace CS3280_group_assignment.Search
         public clsDataAccess db;
         public clsSearchLogic()
         {
-            db = new clsDataAccess();
+            try
+            {
+                db = new clsDataAccess();
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         public string getInvoiceQuery(string filterDate, string filterNum, string filterCost)
-        {
+        {                
             string invoiceQuery = clsSearchSQL.SelectAllFromInvoice();
-            if (filterDate != null && filterNum != null && filterCost != null)
+            
+            try
             {
-                invoiceQuery = clsSearchSQL.SelectInvoiceDatanDatenCost(filterNum, filterDate, filterCost);
+                if (filterDate != null && filterNum != null && filterCost != null)
+                {
+                    invoiceQuery = clsSearchSQL.SelectInvoiceDatanDatenCost(filterNum, filterDate, filterCost);
+                }
+                else if (filterDate != null && filterCost != null)
+                {
+                    invoiceQuery = clsSearchSQL.SelectInvoiceCostnDate(filterCost, filterDate);
+                }
+                else if (filterNum != null && filterCost != null)
+                {
+                    invoiceQuery = clsSearchSQL.SelectInvoiceDataFilterByIDAndCost(filterNum, filterCost);
+                }
+                else if (filterDate != null && filterNum != null )
+                {
+                    invoiceQuery = clsSearchSQL.SelectInvoiceDatanDate(filterNum, filterDate);
+                }
+                else if (filterDate != null)
+                {
+                    invoiceQuery = clsSearchSQL.SelectInvoiceDate(filterDate);
+                }
+                else if (filterCost != null)
+                {
+                    invoiceQuery = clsSearchSQL.SelectInvoiceCost(filterCost);
+                }
+                else if (filterNum != null)
+                {
+                    invoiceQuery = clsSearchSQL.SelectInvoiceData(filterNum);
+                }
             }
-            else if (filterDate != null && filterCost != null)
+            catch (Exception ex)
             {
-                invoiceQuery = clsSearchSQL.SelectInvoiceCostnDate(filterCost, filterDate);
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
-            else if (filterNum != null && filterCost != null)
-            {
-                invoiceQuery = clsSearchSQL.SelectInvoiceDataFilterByIDAndCost(filterNum, filterCost);
-            }
-            else if (filterDate != null && filterNum != null )
-            {
-                invoiceQuery = clsSearchSQL.SelectInvoiceDatanDate(filterNum, filterDate);
-            }
-            else if (filterDate != null)
-            {
-                invoiceQuery = clsSearchSQL.SelectInvoiceDate(filterDate);
-            }
-            else if (filterCost != null)
-            {
-                invoiceQuery = clsSearchSQL.SelectInvoiceCost(filterCost);
-            }
-            else if (filterNum != null)
-            {
-                invoiceQuery = clsSearchSQL.SelectInvoiceData(filterNum);
-            }
+            
+        return invoiceQuery;
 
-            Debug.WriteLine(invoiceQuery);
-            return invoiceQuery;
+
         }
 
         public List<clsInvoice> getInvoices(string filterDate, string filterNum, string filterCost)

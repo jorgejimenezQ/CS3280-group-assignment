@@ -41,74 +41,146 @@ namespace CS3280_group_assignment.Search
 
         private void select_bttn_Click(object sender, RoutedEventArgs e)
         {
-            //W/e selected invoice
-            if (selected != null)
+            try
             {
-                ///bring the wndMain back with the selected invoice
-                mainLogic.selectedInvoice = selected;
-                this.Close();
+                //W/e selected invoice
+                if (selected != null)
+                {
+                    ///bring the wndMain back with the selected invoice
+                    mainLogic.selectedInvoice = selected;
+                    this.Close();
+                }
+                else
+                {
+                    warninglbl.Content = "No Invoice was selected";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                warninglbl.Content = "No Invoice was selected";
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
         private void clearClicked(object sender, RoutedEventArgs e)
         {
-            filterDate = null;
-            invoiceDateBox.Text = "";
-            filterNum = null;
-            invoiceNumber.Text = "";
-            filterCost = null;
-            totalCharge.Text = "";
+            try
+            {
+                filterDate = null;
+                invoiceDateBox.Text = "";
+                filterNum = null;
+                invoiceNumber.Text = "";
+                filterCost = null;
+                totalCharge.Text = "";
 
-            selected = null;
-            invoice_list.SelectedItem = null;
-            updateInvoices();
+                selected = null;
+                invoice_list.SelectedItem = null;
+                updateInvoices();
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
-
+        
 
         private void updateInvoices()
         {
-            invoice_list.ItemsSource = searchLogic.getInvoices(filterDate, filterNum, filterCost);
-            updateInvoiceNums();
-            updateCosts();
+            try
+            {
+                invoice_list.ItemsSource = searchLogic.getInvoices(filterDate, filterNum, filterCost);
+                updateInvoiceNums();
+                updateCosts();
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         private void updateInvoiceNums()
         {
-            invoiceNumber.ItemsSource = searchLogic.getInvoiceNums(filterDate, filterCost);
+            try
+            {
+                invoiceNumber.ItemsSource = searchLogic.getInvoiceNums(filterDate, filterCost);
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
         private void updateCosts()
         {
-            totalCharge.ItemsSource = searchLogic.GetTotalCharges(filterDate, filterNum);
+            try
+            {
+                totalCharge.ItemsSource = searchLogic.GetTotalCharges(filterDate, filterNum);
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         private void invoice_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selected = (clsInvoice)invoice_list.SelectedItem;
+            try
+            {
+                selected = (clsInvoice)invoice_list.SelectedItem;
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         private void InvoiceNumChosen(object sender, SelectionChangedEventArgs e)
         {
-            if (invoiceNumber.SelectedItem != null)
-                filterNum = invoiceNumber.SelectedItem.ToString();
-            updateInvoices();
+            try
+            {
+                if (invoiceNumber.SelectedItem != null)
+                    filterNum = invoiceNumber.SelectedItem.ToString();
+                updateInvoices();
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
         private void TotalCostChosen(object sender, SelectionChangedEventArgs e)
         {
-            if (totalCharge.SelectedItem != null)
-                filterCost= totalCharge.SelectedItem.ToString();
-            updateInvoices();
+            try
+            {
+                if (totalCharge.SelectedItem != null)
+                    filterCost = totalCharge.SelectedItem.ToString();
+                updateInvoices();
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         private void datePickerChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(invoiceDateBox.SelectedDate != null)
-                filterDate = invoiceDateBox.SelectedDate.Value.ToString("M/dd/yyyy");
-            updateInvoices();
+            try
+            {
+                if (invoiceDateBox.SelectedDate != null)
+                    filterDate = invoiceDateBox.SelectedDate.Value.ToString("M/dd/yyyy");
+                updateInvoices();
+            }
+            catch (Exception ex)
+            {
+                clsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
     }
 }

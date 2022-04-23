@@ -21,7 +21,15 @@ namespace CS3280_group_assignment.Items
         /// <returns></returns>
         public string GetItem()
         {
-            return "select ItemCode, ItemDesc, Cost from ItemDesc";
+            try
+            {
+                return "select ItemCode, ItemDesc, Cost from ItemDesc";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -29,7 +37,15 @@ namespace CS3280_group_assignment.Items
         /// </summary>
         public string GetItemWhereCodeIs(string code)
         {
-            return $"select * from LineItems where ItemCode = '{code}'";
+            try
+            {
+                return $"select * from LineItems where ItemCode = '{code}'";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -41,7 +57,15 @@ namespace CS3280_group_assignment.Items
         /// <returns></returns>
         public string UpdateItemDesc(string desc, string cost, string code)
         {
-            return "Update ItemDesc Set ItemDesc =" + desc + ", Cost = " + cost + "where ItemCode =" + code;
+            try
+            {
+                return "Update ItemDesc Set ItemDesc =" + desc + ", Cost = " + cost + "where ItemCode =" + code;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -54,7 +78,15 @@ namespace CS3280_group_assignment.Items
         /// <returns></returns>
         public string InsertItem(string code, string desc, string cost)
         {
-            return $"Insert into ItemDesc(ItemCode, ItemDesc, Cost) Values('{code}', '{desc}', '{cost}')";
+            try
+            {
+                return $"Insert into ItemDesc(ItemCode, ItemDesc, Cost) Values('{code}', '{desc}', '{cost}')";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -132,7 +164,15 @@ namespace CS3280_group_assignment.Items
         /// <returns></returns>
         public string DeleteItem(string code)
         {
-            return $"Delete from ItemDesc Where ItemCode = '{code}'";
+            try
+            {
+                return $"Delete from ItemDesc Where ItemCode = '{code}'";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         public string GetAllItemsByInvoiceNumber(string invoice)
