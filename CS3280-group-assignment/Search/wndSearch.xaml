@@ -10,12 +10,14 @@
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveCaptionColorKey}}"/>
         </Grid.Background>
-        <DataGrid x:Name="invoice_list" CanUserAddRows="False" Margin="21,54,272,42" SelectionChanged="invoice_list_SelectionChanged"/>
-        <Button x:Name="clear_bttn" Content="Clear Selection" HorizontalAlignment="Left" Margin="664,278,0,0" VerticalAlignment="Top" Height="25" Width="92" FontWeight="Bold"/>
-        <ComboBox x:Name="invoiceNumber" HorizontalAlignment="Left" Margin="643,120,0,0" VerticalAlignment="Top" Width="133" Height="27"/>
-        <ComboBox x:Name="totalCharge" HorizontalAlignment="Left" Margin="643,190,0,0" VerticalAlignment="Top" Width="133" Height="27"/>
+		<DataGrid x:Name="invoice_list" CanUserAddRows="False" Margin="21,54,272,42" SelectionChanged="invoice_list_SelectionChanged" ItemsSource="{Binding}">
+
+		</DataGrid>
+        <Button x:Name="clear_bttn" Content="Clear Selection" HorizontalAlignment="Left" Margin="664,278,0,0" VerticalAlignment="Top" Height="25" Width="92" FontWeight="Bold" Click="clearClicked"/>
+        <ComboBox x:Name="invoiceNumber" HorizontalAlignment="Left" Margin="643,120,0,0" VerticalAlignment="Top" Width="133" Height="27" ItemsSource="{Binding}" SelectionChanged="InvoiceNumChosen" />
+        <ComboBox x:Name="totalCharge" HorizontalAlignment="Left" Margin="643,190,0,0" VerticalAlignment="Top" Width="133" Height="27" ItemsSource="{Binding}" SelectionChanged="TotalCostChosen"/>
         <Button x:Name="select_bttn" Content="Select Invoice" HorizontalAlignment="Left" Margin="664,342,0,0" VerticalAlignment="Top" Height="25" Width="92" FontWeight="Bold" Click="select_bttn_Click"/>
-        <DatePicker x:Name="invoiceDateBox" HorizontalAlignment="Left" Margin="643,46,0,0" VerticalAlignment="Top" Width="133" FontSize="14" Height="27"/>
+        <DatePicker x:Name="invoiceDateBox" HorizontalAlignment="Left" Margin="643,46,0,0" VerticalAlignment="Top" Width="133" FontSize="14" Height="27" SelectedDateChanged="datePickerChanged" />
         <Label Content="Invoice Date:" HorizontalAlignment="Left" Margin="554,46,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="Invoice Number:" HorizontalAlignment="Left" Margin="534,121,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="Total Charges:" HorizontalAlignment="Left" Margin="548,191,0,0" VerticalAlignment="Top" FontWeight="Bold"/>

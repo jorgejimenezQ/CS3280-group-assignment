@@ -20,5 +20,16 @@ namespace CS3280_group_assignment.Main
             this.TotalCost = TotalCost;
         }
 
+        public clsInvoice(String InvoiceDate, String TotalCost, String invoiceNum)
+        {
+            this.InvoiceDate = InvoiceDate;
+            this.TotalCost = TotalCost;
+            this.InvoiceNum = invoiceNum;
+        }
+
+        public string ToString()
+        {
+            return InvoiceNum + " " + InvoiceDate + " " + TotalCost;
+        }
     }
 }
