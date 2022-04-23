@@ -61,6 +61,7 @@ namespace CS3280_group_assignment.Main
                 creating = false;
 
                 cbItems.ItemsSource = mainLogic.LoadItems();
+                itemsList = new List<Item>();  
                 
             }
             catch (Exception ex)
