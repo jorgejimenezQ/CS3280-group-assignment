@@ -15,6 +15,10 @@ namespace CS3280_group_assignment.Search
     class clsSearchLogic
     {
         public clsDataAccess db;
+       
+        /// <summary>
+        /// Constructor to create a logic and setup the db access.
+        /// </summary>
         public clsSearchLogic()
         {
             try
@@ -28,6 +32,9 @@ namespace CS3280_group_assignment.Search
             }
         }
 
+        /// <summary>
+        /// Given filters returns the correct invoice query specific to the filters given.
+        /// </summary>
         public string getInvoiceQuery(string filterDate, string filterNum, string filterCost)
         {                
             string invoiceQuery = clsSearchSQL.SelectAllFromInvoice();
@@ -71,9 +78,11 @@ namespace CS3280_group_assignment.Search
             
         return invoiceQuery;
 
-
         }
 
+        /// <summary>
+        /// Gets the invoices given filters.
+        /// </summary>
         public List<clsInvoice> getInvoices(string filterDate, string filterNum, string filterCost)
         {
             try
@@ -103,6 +112,9 @@ namespace CS3280_group_assignment.Search
             }
         }
 
+        /// <summary>
+        /// Onbtains distinct invoice numbers as a list given various filters.
+        /// </summary>
         public List<string> getInvoiceNums(string filterDate, string filterCost)
         {
             try
@@ -146,6 +158,9 @@ namespace CS3280_group_assignment.Search
             }
         }
 
+        /// <summary>
+        /// Obtains distinct list of invoice costs given filters.
+        /// </summary>
         public List<string> GetTotalCharges(string filterDate, string invoiceNum)
         {
             try

@@ -26,6 +26,10 @@ namespace CS3280_group_assignment.Search
     {
         clsMainLogic mainLogic;
         clsSearchLogic searchLogic = new clsSearchLogic();
+        
+        /// <summary>
+        /// COnstructor for a search window.
+        /// </summary>
         public wndSearch(clsMainLogic _mainLogic)
         {
             InitializeComponent();
@@ -38,7 +42,11 @@ namespace CS3280_group_assignment.Search
         string filterDate;
         string filterNum;
         string filterCost;
-
+        
+        /// <summary>
+        /// Function for managing when an invoice is selected, returns the user to the main window
+        /// after passing in the selected invoice.
+        /// </summary>
         private void select_bttn_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -62,6 +70,9 @@ namespace CS3280_group_assignment.Search
             }
         }
 
+        /// <summary>
+        /// Clears all filters and selections to allow for new searching.
+        /// </summary>
         private void clearClicked(object sender, RoutedEventArgs e)
         {
             try
@@ -84,8 +95,9 @@ namespace CS3280_group_assignment.Search
             }
         }
 
-        
-
+        /// <summary>
+        /// Updates all invoices, given filters as well as filter lists based on the filters already chosen.
+        /// </summary>        
         private void updateInvoices()
         {
             try
@@ -101,6 +113,9 @@ namespace CS3280_group_assignment.Search
             }
         }
 
+        /// <summary>
+        /// Updates the invoice nubmers list based on current filters.
+        /// </summary>
         private void updateInvoiceNums()
         {
             try
@@ -113,6 +128,10 @@ namespace CS3280_group_assignment.Search
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
+
+        /// <summary>
+        /// Updates the costs list based on current filters.
+        /// </summary>
         private void updateCosts()
         {
             try
@@ -126,6 +145,11 @@ namespace CS3280_group_assignment.Search
             }
         }
 
+
+        /// <summary>
+        /// Triggered when the invoice list is changed via a selection
+        /// sets the selected invoice var that will be passed in if the user clicks the Select Invoice button.
+        /// </summary>
         private void invoice_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -139,6 +163,10 @@ namespace CS3280_group_assignment.Search
             }
         }
 
+        /// <summary>
+        /// Triggered when the user selects and invoice number
+        /// Selects the invoice num and updates all invoice on the newly selected filterable invoice num.
+        /// </summary>
         private void InvoiceNumChosen(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -153,6 +181,11 @@ namespace CS3280_group_assignment.Search
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
+
+        /// <summary>
+        /// Triggered when the user selects and invoice cost
+        /// Selects the invoice cost and updates all invoice on the newly selected filterable invoice cost.
+        /// </summary>
         private void TotalCostChosen(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -168,6 +201,10 @@ namespace CS3280_group_assignment.Search
             }
         }
 
+        /// <summary>
+        /// Triggered when the user selects and invoice date
+        /// Selects the invoice date and updates all invoice on the newly selected filterable invoice date.
+        /// </summary>
         private void datePickerChanged(object sender, SelectionChangedEventArgs e)
         {
             try
